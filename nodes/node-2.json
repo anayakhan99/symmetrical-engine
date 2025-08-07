@@ -1,0 +1,8 @@
+﻿{
+    "password":  "P@ssw0rd!",
+    "region":  "ap",
+    "node":  2,
+    "username":  "runneradmin",
+    "tunnel":  "0.tcp.ap.ngrok.io:16392",
+    "started_at":  "2025-08-07 22:22:10"
+}
