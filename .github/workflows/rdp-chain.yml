@@ -10,7 +10,7 @@ on:
 
 jobs:
   deploy-node:
-    name: "Launch Node ${{ github.event.inputs.NODE }}"
+    name: "Deploy Node ${{ github.event.inputs.NODE }}"
     runs-on: windows-latest
     timeout-minutes: 30
 
@@ -19,44 +19,44 @@ jobs:
       GH_PAT: ${{ secrets.GH_PAT }}
       NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
       REPO: ${{ github.repository }}
-      WORKFLOW_FILE: "rdp-chain.yml"  # <-- name of this file
+      WORKFLOW_FILE: "rdp-chain.yml"
 
     steps:
-      - name: Log Node Info
+      - name: 🧾 Log Node Info
         shell: pwsh
         run: |
-          Write-Host "===================================="
-          Write-Host "🟢 Starting Node ID: $env:NODE_ID"
-          Write-Host "📦 Repository: $env:REPO"
-          Write-Host "🔁 Workflow File: $env:WORKFLOW_FILE"
-          Write-Host "===================================="
+          Write-Host "=================================================="
+          Write-Host "🟢 NODE_ID           : $env:NODE_ID"
+          Write-Host "📦 GITHUB_REPOSITORY : $env:REPO"
+          Write-Host "🔁 WORKFLOW_FILE     : $env:WORKFLOW_FILE"
+          Write-Host "=================================================="
 
-      - name: Validate Required Secrets
+      - name: 🔐 Validate Required Secrets
         shell: pwsh
         run: |
           if (-not $env:GH_PAT) {
-            throw "❌ Missing GH_PAT (GitHub Personal Access Token)."
+            Write-Error "❌ Missing GitHub PAT."
+            exit 1
           }
           if (-not $env:NGROK_AUTH_TOKEN) {
-            throw "❌ Missing NGROK_AUTH_TOKEN."
+            Write-Error "❌ Missing NGROK_AUTH_TOKEN."
+            exit 1
           }
 
-      - name: Install Git (Optional for Metadata Push)
-        shell: pwsh
-        run: |
-          choco install git -y
-          git --version
-
-      - name: Download rdp-node.ps1 from GitLab
+      - name: 📥 Download rdp-node.ps1 (from GitLab)
         shell: pwsh
         run: |
           $url = "https://gitlab.com/Shahzaib-YT/ngrok-multi-nodes/-/raw/main/rdp-node.ps1"
-          Write-Host "📥 Downloading rdp-node.ps1 from GitLab..."
-          Invoke-WebRequest -Uri $url -OutFile "rdp-node.ps1"
-          Write-Host "✅ rdp-node.ps1 downloaded successfully."
+          Write-Host "📡 Downloading rdp-node.ps1..."
+          Invoke-WebRequest -Uri $url -OutFile "rdp-node.ps1" -UseBasicParsing
+          if (!(Test-Path "./rdp-node.ps1")) {
+            Write-Error "❌ Failed to download rdp-node.ps1"
+            exit 1
+          }
+          Write-Host "✅ rdp-node.ps1 successfully downloaded."
 
-      - name: Execute rdp-node.ps1
+      - name: 🚀 Execute rdp-node.ps1
         shell: pwsh
         run: |
-          Write-Host "🚀 Executing rdp-node.ps1"
+          Write-Host "🚦 Executing rdp-node.ps1 with ExecutionPolicy Bypass"
           powershell.exe -ExecutionPolicy Bypass -File ".\rdp-node.ps1"
