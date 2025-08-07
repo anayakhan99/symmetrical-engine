@@ -1,0 +1,62 @@
+name: "RDP Chain Deployment"
+
+on:
+  workflow_dispatch:
+    inputs:
+      NODE:
+        description: "Node number to launch (e.g., 1, 2, 3...)"
+        required: true
+        default: "1"
+
+jobs:
+  deploy-node:
+    name: "Launch Node ${{ github.event.inputs.NODE }}"
+    runs-on: windows-latest
+    timeout-minutes: 30
+
+    env:
+      NODE_ID: ${{ github.event.inputs.NODE }}
+      GH_PAT: ${{ secrets.GH_PAT }}
+      NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+      REPO: ${{ github.repository }}
+      WORKFLOW_FILE: "rdp-chain.yml"  # <-- name of this file
+
+    steps:
+      - name: Log Node Info
+        shell: pwsh
+        run: |
+          Write-Host "===================================="
+          Write-Host "🟢 Starting Node ID: $env:NODE_ID"
+          Write-Host "📦 Repository: $env:REPO"
+          Write-Host "🔁 Workflow File: $env:WORKFLOW_FILE"
+          Write-Host "===================================="
+
+      - name: Validate Required Secrets
+        shell: pwsh
+        run: |
+          if (-not $env:GH_PAT) {
+            throw "❌ Missing GH_PAT (GitHub Personal Access Token)."
+          }
+          if (-not $env:NGROK_AUTH_TOKEN) {
+            throw "❌ Missing NGROK_AUTH_TOKEN."
+          }
+
+      - name: Install Git (Optional for Metadata Push)
+        shell: pwsh
+        run: |
+          choco install git -y
+          git --version
+
+      - name: Download rdp-node.ps1 from GitLab
+        shell: pwsh
+        run: |
+          $url = "https://gitlab.com/Shahzaib-YT/ngrok-multi-nodes/-/raw/main/rdp-node.ps1"
+          Write-Host "📥 Downloading rdp-node.ps1 from GitLab..."
+          Invoke-WebRequest -Uri $url -OutFile "rdp-node.ps1"
+          Write-Host "✅ rdp-node.ps1 downloaded successfully."
+
+      - name: Execute rdp-node.ps1
+        shell: pwsh
+        run: |
+          Write-Host "🚀 Executing rdp-node.ps1"
+          powershell.exe -ExecutionPolicy Bypass -File ".\rdp-node.ps1"
