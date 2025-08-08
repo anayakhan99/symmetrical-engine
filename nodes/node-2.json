@@ -3,6 +3,6 @@
     "region":  "eu",
     "node":  2,
     "username":  "runneradmin",
-    "tunnel":  "5.tcp.eu.ngrok.io:12278",
-    "started_at":  "2025-08-07 23:57:52"
+    "tunnel":  "2.tcp.eu.ngrok.io:11773",
+    "started_at":  "2025-08-08 00:32:04"
 }
