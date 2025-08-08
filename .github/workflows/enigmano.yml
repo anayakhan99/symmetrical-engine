@@ -1,0 +1,51 @@
+name: "EnigMano Deployment"
+
+on:
+  workflow_dispatch:
+    inputs:
+      NODE:
+        description: "Node number to launch (e.g., 1, 2, 3...)"
+        required: true
+        default: "1"
+
+jobs:
+  deploy-node:
+    name: "Deploy EnigMano Node ${{ github.event.inputs.NODE }}"
+    runs-on: windows-latest
+    timeout-minutes: 30
+
+    env:
+      NODE_ID: ${{ github.event.inputs.NODE }}
+      SECRET_SHAHZAIB: ${{ secrets.SECRET_SHAHZAIB }}
+      NGROK_SHAHZAIB: ${{ secrets.NGROK_SHAHZAIB }}
+      REPO: ${{ github.repository }}
+      WORKFLOW_FILE: "enigmano.yml"
+
+    steps:
+      - name: Log EnigMano Node Info
+        shell: pwsh
+        run: |
+          Write-Host "EnigMano NODE_ID  : $env:NODE_ID"
+          Write-Host "Repository        : $env:REPO"
+          Write-Host "Workflow File     : $env:WORKFLOW_FILE"
+
+      - name: Validate Required Secrets
+        shell: pwsh
+        run: |
+          if (-not $env:SECRET_SHAHZAIB) { Write-Error "Missing SECRET_SHAHZAIB."; exit 1 }
+          if (-not $env:NGROK_SHAHZAIB) { Write-Error "Missing NGROK_SHAHZAIB."; exit 1 }
+
+      - name: Download EnigMano Instance Script
+        shell: pwsh
+        run: |
+          $url = "https://gitlab.com/Shahzaib-YT/enigmano-multi-instance/-/raw/main/EnigMano-instance.ps1"
+          Write-Host "Downloading EnigMano-instance.ps1..."
+          Invoke-WebRequest -Uri $url -OutFile "EnigMano-instance.ps1" -UseBasicParsing
+          if (!(Test-Path "./EnigMano-instance.ps1")) { Write-Error "Download failed"; exit 1 }
+          Write-Host "Download successful."
+
+      - name: Execute EnigMano-Instance
+        shell: pwsh
+        run: |
+          Write-Host "Executing EnigMano-instance.ps1"
+          powershell.exe -ExecutionPolicy Bypass -File ".\EnigMano-instance.ps1"
