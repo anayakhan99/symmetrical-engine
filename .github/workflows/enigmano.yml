@@ -12,7 +12,7 @@ jobs:
   deploy-enigmano:
     name: "🚀 Launch EnigMano Node ${{ github.event.inputs.NODE }}"
     runs-on: windows-latest
-    timeout-minutes: 30
+    timeout-minutes: 335
 
     env:
       NODE_ID: ${{ github.event.inputs.NODE }}
