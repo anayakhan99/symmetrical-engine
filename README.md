@@ -38,6 +38,7 @@ Trigger it manually, input your **instance number**, and let the silent hand exe
 
 ## 🎯 Usage
 
+- Fork this repository, and enable Actions. 
 - Open your repo's **Actions** tab  
 - Select **⚡ EnigMano Instance Deployment** workflow  
 - Click **Run workflow**  
