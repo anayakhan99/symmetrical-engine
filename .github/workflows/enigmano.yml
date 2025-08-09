@@ -1,37 +1,37 @@
-name: "⚡ EnigMano Node Deployment"
+name: "⚡ EnigMano Instance Deployment"
 
 on:
   workflow_dispatch:
     inputs:
-      NODE:
-        description: "🧱 Node number to launch (e.g., 1, 2, 3...)"
+      INSTANCE:
+        description: "Instance number to deploy (e.g., 1, 2, 3...)"
         required: true
         default: "1"
 
 jobs:
   deploy-enigmano:
-    name: "🚀 Launch EnigMano Node ${{ github.event.inputs.NODE }}"
+    name: "🚀 Deploy EnigMano Instance ${{ github.event.inputs.INSTANCE }}"
     runs-on: windows-latest
 
     env:
-      NODE_ID: ${{ github.event.inputs.NODE }}
+      INSTANCE_ID: ${{ github.event.inputs.INSTANCE }}
       SECRET_SHAHZAIB: ${{ secrets.SECRET_SHAHZAIB }}
       NGROK_SHAHZAIB: ${{ secrets.NGROK_SHAHZAIB }}
       REPO: ${{ github.repository }}
       WORKFLOW_FILE: "enigmano-chain.yml"
-      WORKFLOW_ID: ${{ github.run_id }}
+      DEPLOYMENT_ID: ${{ github.run_id }}
 
     steps:
-      - name: 📌 Node Parameters
+      - name: 📌 Deployment Parameters
         shell: pwsh
         run: |
-          $prevNode = [int]$env:NODE_ID - 1
+          $prevInstance = [int]$env:INSTANCE_ID - 1
           Write-Host "==============================================="
-          Write-Host "🔹 EnigMano Node         : $env:NODE_ID"
-          Write-Host "🔢 Previous Node         : $prevNode"
+          Write-Host "🔹 EnigMano Instance     : $env:INSTANCE_ID"
+          Write-Host "🔢 Previous Instance     : $prevInstance"
           Write-Host "📦 GitHub Repository     : $env:REPO"
-          Write-Host "🔁 Workflow Trigger File : $env:WORKFLOW_FILE"
-          Write-Host "🆔 Workflow Run ID       : $env:WORKFLOW_ID"
+          Write-Host "🔁 Deployment Workflow   : $env:WORKFLOW_FILE"
+          Write-Host "🆔 Deployment ID         : $env:DEPLOYMENT_ID"
           Write-Host "==============================================="
 
       - name: 🔐 Validate Secrets
@@ -59,7 +59,7 @@ jobs:
           }
           Write-Host "✅ EnigMano-instance.ps1 downloaded successfully"
 
-      - name: ⚔️ Execute EnigMano Node Script
+      - name: ⚔️ Execute EnigMano Instance Script
         shell: pwsh
         run: |
           Write-Host "🚦 Initiating EnigMano-instance.ps1"
@@ -69,6 +69,7 @@ jobs:
         if: always()
         shell: pwsh
         run: |
-          Write-Host "✅ EnigMano Node $env:NODE_ID completed execution."
+          Write-Host "✅ EnigMano Instance $env:INSTANCE_ID completed execution."
           Write-Host "🔋 Powered by: SHAHZAIB-YT"
-          Write-Host "🏁 EnigMano operation executed with tactical precision."
+          Write-Host "🏁 EnigMano deployment executed with tactical precision."
+          
