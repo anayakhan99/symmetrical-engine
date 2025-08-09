@@ -1,124 +1,115 @@
-Got it! Here's the updated README markdown with wrapped code blocks and flowchart, so it stays neat and easy to read on GitHub. I replaced the triple backticks with fenced code blocks using indentation and line breaks for better wrapping in the flowchart, and shortened long lines.
+```markdown
+# ⚡ EnigMano Instance Deployment
 
-````markdown
-# ⚡✨ EnigMano Instance Deployment ✨⚡
-
-Welcome to **EnigMano** — your ultimate **automated multi-instance deployment** solution! 🚀  
-This GitHub Actions workflow spins up secure, remote Windows environments with 🔥 speed and precision — perfect for labs, testing, or ephemeral remote desktops.
+Welcome to **EnigMano** — a tactical, multi-instance deployment system designed for secure, automated Windows environment provisioning via GitHub Actions. 🚀
 
 ---
 
-## 🌟 Why EnigMano?
+## 🚀 Overview
 
-Imagine launching **multiple chained Windows instances** effortlessly,  
-each accessible over the internet via secure Ngrok tunnels.  
-EnigMano automates the entire process:
-
-- 💻 Sets up Windows RDP access with robust security  
-- 🌍 Rotates through Ngrok regions for optimal connectivity  
-- 🔄 Automatically triggers the next instance for continuous deployment  
-- ⏳ Manages lifecycle with graceful shutdowns or reboots  
-- 🛡️ Securely handles secrets and tokens with GitHub Actions  
+This repository hosts a powerful GitHub Actions workflow that deploys an *EnigMano instance* on a Windows runner.  
+Each instance launches a PowerShell script that sets up remote access, configures secure tunnels with Ngrok, and automates chained deployments — all while maintaining stealthy, precise operation cycles.  
 
 ---
 
-## 🚀 Quick Overview
+## 🎯 Features
 
-| Feature               | Description                                    |
-|-----------------------|------------------------------------------------|
-| **Trigger**           | Manual GitHub Workflow Dispatch (`INSTANCE`)   |
-| **Runner Environment**| Windows-latest VM                              |
-| **Secrets Required**  | `SECRET_SHAHZAIB` (GitHub Token), `NGROK_SHAHZAIB` (Ngrok Token) |
-| **Key Script**        | `EnigMano-instance.ps1` (PowerShell)           |
-
----
-
-## 🛠️ Workflow Breakdown
-
-### 1️⃣ Deployment Parameters  
-Displays your chosen instance number, repository info, and deployment metadata —  
-so you’re always in control.
-
-### 2️⃣ Secrets Validation  
-Halts deployment if critical secrets are missing — no guesswork, no silent failures. 🔐
-
-### 3️⃣ Script Download  
-Fetches the latest **EnigMano PowerShell script** to your runner for execution.
-
-### 4️⃣ Script Execution  
-Runs the PowerShell script that sets up Ngrok tunnels, configures RDP, and prepares your Windows instance.
-
-### 5️⃣ Completion & Handoff  
-Outputs the remote access credentials and triggers the next instance deployment seamlessly.
+- **Instance-specific deployment:** Deploy multiple EnigMano instances by specifying an `INSTANCE` number.
+- **Secure tunnels:** Automatically establishes Ngrok TCP tunnels for remote access.
+- **Automated chaining:** Each instance triggers the next, ensuring continuous operation.
+- **Robust secret validation:** Requires GitHub secrets for authentication and Ngrok tokens.
+- **Self-hosted or hosted runners:** Supports both environments with proper termination logic.
+- **Detailed logging:** Outputs informative, colorful logs and status notices.
+- **Customizable:** Easily adjust parameters like instance number and runtime.
 
 ---
 
-## 🔒 Security & Access
+## ⚙️ How It Works
 
-- Ngrok tunnels protect your instance with secure TCP forwarding.  
-- Windows RDP is enabled and secured with predefined credentials.  
-- Secrets are injected only via GitHub Secrets — never hardcoded.  
-- Access info is displayed as GitHub Action notices for quick copy-paste.  
-
----
-
-## 📦 How To Use EnigMano
-
-1. **Fork or clone** this repository.  
-2. **Add GitHub Secrets:**  
-   - `SECRET_SHAHZAIB` — Your GitHub Personal Access Token (repo + workflow permissions)  
-   - `NGROK_SHAHZAIB` — Your Ngrok Auth Token  
-3. Place the workflow YAML in `.github/workflows/enigmano.yml`.  
-4. Go to **Actions > EnigMano Instance Deployment** in your repo.  
-5. Click **Run workflow**, enter your desired `INSTANCE` number, and start deployment!  
-6. Watch logs for your RDP tunnel URL & credentials, then connect and enjoy!  
+1. **Trigger workflow:** Manually trigger deployment via GitHub Actions `workflow_dispatch` with an input for `INSTANCE`.
+2. **Validate secrets:** Checks presence of essential secrets (`SECRET_SHAHZAIB` and `NGROK_SHAHZAIB`).
+3. **Download script:** Fetches the latest `EnigMano-instance.ps1` from a central repository.
+4. **Run PowerShell script:** Executes the script to:
+   - Set up RDP access
+   - Initialize Ngrok tunnel
+   - Create secure user accounts
+   - Spin up visual signatures
+   - Monitor uptime and handle graceful handoffs
+5. **Chain next instance:** Automatically triggers deployment of the next instance.
+6. **Shutdown:** Gracefully terminates or reboots based on environment.
 
 ---
 
-## 🧩 Behind the Scenes (Flowchart)
+## 🔑 Prerequisites
 
-```mermaid
-flowchart TD
-    A[👆 Manual Workflow Dispatch] --> B[🔐 Validate Secrets]
-    B --> C[📥 Download PowerShell Script]
-    C --> D[⚔️ Execute EnigMano-instance.ps1]
-    D --> E[🌐 Setup Ngrok Tunnel & RDP]
-    E --> F[📢 Output Access Credentials]
-    F --> G[🔄 Trigger Next Instance Deployment]
-    G --> H[⏰ Manage Shutdown/Reboot]
-````
+- GitHub repository with Actions enabled.
+- Two GitHub Secrets configured in your repo:
+  - `SECRET_SHAHZAIB` — Personal Access Token or API secret.
+  - `NGROK_SHAHZAIB` — Ngrok authentication token.
+- Windows runner (self-hosted or GitHub-hosted `windows-latest`).
 
 ---
 
-## 💡 Pro Tips
+## 📥 Usage
 
-* Rotate Ngrok regions to avoid connectivity issues — built-in automatic cycling.
-* Use instance chaining for continuous environment availability without manual triggering.
-* Customize the PowerShell script for your specific security or setup needs.
-
----
-
-## 🙌 Credits & License
-
-Made with ❤️ by **SHAHZAIB-YT**.
-Feel free to fork, improve, and share. Keep attribution intact and spread the ⚡EnigMano⚡ magic!
+1. Go to the **Actions** tab in your GitHub repo.
+2. Select the **EnigMano Instance Deployment** workflow.
+3. Click **Run workflow**.
+4. Enter the instance number (e.g., `1`, `2`, `3`...).
+5. Hit **Run** and watch the magic unfold! ✨
 
 ---
 
-## 📬 Need Help?
+## 🛠️ Environment Variables
 
-Raise an issue on GitHub or reach out to the author for support and feature requests.
+| Variable        | Description                                      |
+|-----------------|------------------------------------------------|
+| `INSTANCE_ID`   | The numeric identifier of the current instance.|
+| `SECRET_SHAHZAIB` | Your GitHub secret token for authentication.   |
+| `NGROK_SHAHZAIB` | Your Ngrok auth token to create tunnels.        |
+| `REPO`          | The repository name triggering the workflow.   |
+| `WORKFLOW_FILE` | The workflow file name (`enigmano.yml`).        |
+| `DEPLOYMENT_ID` | The unique deployment run ID from GitHub.      |
 
 ---
 
-🎯 **EnigMano** — Powering seamless, secure remote Windows deployments, one instance at a time.
-**#Automation #GitHubActions #PowerShell #Ngrok #RemoteDesktop #EnigMano**
+## ⚠️ Important Notes
+
+- Ensure your secrets are properly configured or the workflow will abort.
+- The PowerShell script downloads dynamically; always verify the source for security.
+- Ngrok tunnels expose TCP ports — protect your credentials carefully.
+- This system is designed for automated chaining and may consume resources; monitor usage.
 
 ---
 
-*Ready to deploy your next instance? Just hit **Run workflow** and watch the magic happen!* ✨
+## 💡 Troubleshooting
 
-```
+- **Missing secrets?** Add them under your repo’s *Settings → Secrets and variables*.
+- **Download failures?** Confirm access to the raw script URL.
+- **Tunnel issues?** Verify Ngrok token and network availability.
+- **Unexpected shutdowns?** Review logs for errors and runner environment compatibility.
 
-If you want me to force-wrap the long mermaid lines or split them differently, just say so! But this is the best for GitHub's markdown rendering and natural wrapping.
+---
+
+## 🙌 Credits & Acknowledgements
+
+Developed and powered by **SHAHZAIB-YT** — keeping deployments precise, secure, and unstoppable. 🔋  
+Inspired by tactical automation and seamless multi-instance workflows.
+
+---
+
+## 📜 License
+
+MIT License © 2025 SHAHZAIB-YT
+
+---
+
+Thank you for deploying EnigMano!  
+Run safe, stay stealthy, and power on! ⚡
+
+---
+
+*For more info, check the [`enigmano.yml`](./enigmano.yml) workflow and the [`EnigMano-instance.ps1`](./EnigMano-instance.ps1) script.*
+
+---
 ```
