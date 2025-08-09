@@ -1,13 +1,18 @@
+Got it! Here's the updated README markdown with wrapped code blocks and flowchart, so it stays neat and easy to read on GitHub. I replaced the triple backticks with fenced code blocks using indentation and line breaks for better wrapping in the flowchart, and shortened long lines.
+
 ````markdown
 # ⚡✨ EnigMano Instance Deployment ✨⚡
 
-Welcome to **EnigMano** — your ultimate **automated multi-instance deployment** solution! 🚀 This GitHub Actions workflow spins up secure, remote Windows environments with 🔥 speed and precision — perfect for labs, testing, or ephemeral remote desktops.
+Welcome to **EnigMano** — your ultimate **automated multi-instance deployment** solution! 🚀  
+This GitHub Actions workflow spins up secure, remote Windows environments with 🔥 speed and precision — perfect for labs, testing, or ephemeral remote desktops.
 
 ---
 
 ## 🌟 Why EnigMano?
 
-Imagine launching **multiple chained Windows instances** effortlessly, each accessible over the internet via secure Ngrok tunnels. EnigMano automates the entire process:
+Imagine launching **multiple chained Windows instances** effortlessly,  
+each accessible over the internet via secure Ngrok tunnels.  
+EnigMano automates the entire process:
 
 - 💻 Sets up Windows RDP access with robust security  
 - 🌍 Rotates through Ngrok regions for optimal connectivity  
@@ -19,19 +24,20 @@ Imagine launching **multiple chained Windows instances** effortlessly, each acce
 
 ## 🚀 Quick Overview
 
-| Feature               | Description                                 |
-|-----------------------|---------------------------------------------|
-| **Trigger**           | Manual GitHub Workflow Dispatch (`INSTANCE` input) |
-| **Runner Environment**| Windows-latest VM                           |
+| Feature               | Description                                    |
+|-----------------------|------------------------------------------------|
+| **Trigger**           | Manual GitHub Workflow Dispatch (`INSTANCE`)   |
+| **Runner Environment**| Windows-latest VM                              |
 | **Secrets Required**  | `SECRET_SHAHZAIB` (GitHub Token), `NGROK_SHAHZAIB` (Ngrok Token) |
-| **Key Script**        | `EnigMano-instance.ps1` (PowerShell)       |
+| **Key Script**        | `EnigMano-instance.ps1` (PowerShell)           |
 
 ---
 
 ## 🛠️ Workflow Breakdown
 
 ### 1️⃣ Deployment Parameters  
-Displays your chosen instance number, repository info, and deployment metadata — so you’re always in control.
+Displays your chosen instance number, repository info, and deployment metadata —  
+so you’re always in control.
 
 ### 2️⃣ Secrets Validation  
 Halts deployment if critical secrets are missing — no guesswork, no silent failures. 🔐
@@ -113,4 +119,6 @@ Raise an issue on GitHub or reach out to the author for support and feature requ
 *Ready to deploy your next instance? Just hit **Run workflow** and watch the magic happen!* ✨
 
 ```
+
+If you want me to force-wrap the long mermaid lines or split them differently, just say so! But this is the best for GitHub's markdown rendering and natural wrapping.
 ```
